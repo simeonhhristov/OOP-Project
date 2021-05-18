@@ -96,7 +96,7 @@ char &String::operator[](int index)
     {
         return this->data[index];
     }
-    std::cout << "Index out of bounds" << std::endl;
+    std::cout << "Index out of bounds"<< std::endl;
     return this->data[0];
 }
 
@@ -132,8 +132,8 @@ String String::operator+(const String &other)
     return sum;
 }
 
-bool String::operator==(const String& other)
-{   
+bool String::operator==(const String &other)
+{
     int i = 0;
     for (; this->data[i] != '\0'; i++)
     {
@@ -142,11 +142,11 @@ bool String::operator==(const String& other)
             return false;
         }
     }
-    if (other.data[i]!= '\0')
+    if (other.data[i] != '\0')
     {
         return false;
     }
-    
+
     return true;
 }
 String &String::append(const String &other)

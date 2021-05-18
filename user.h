@@ -15,6 +15,7 @@ public:
 public:
     User();
     User(String , String, String, String);
+    User& operator=(const User&);
 
     friend std::istream& operator>>(std::istream& in, User& user)
     {
@@ -23,7 +24,7 @@ public:
     }
     friend std::ostream& operator<<(std::ostream& out, const User& user)
     {
-        out << user.username <<" " << user.email << " " << user.password << " ";
+        out << user.username <<" " << user.email << " " << user.password << " Friends:";
         
         for (int i = 0; i < user.numOfFriends; i++)
         {

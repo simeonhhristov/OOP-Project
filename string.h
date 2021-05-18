@@ -10,7 +10,7 @@ private:
 public:
     String();
     String(const String &);
-    String(size_t size); 
+    String(size_t size);
     String &operator=(const String &);
     String(const char *data);
     ~String();
@@ -43,11 +43,11 @@ public:
     char &operator[](int index);        //Връща символ от низа
     String &operator+=(const String &); //Добавя към един низ друг
     String operator+(const String &);   //Събира два низа и връща нов низ
-    bool operator==(const String&);
-    String &append(const String &);     //Добавя към един низ друг
-    void pushBack(char);                //Добавя символ в края на низа
-    void popBack();                     //Премахва символ от края на низа
-    void swap(String &);                //Разменя стойностите на два низа
+    bool operator==(const String &);
+    String &append(const String &); //Добавя към един низ друг
+    void pushBack(char);            //Добавя символ в края на низа
+    void popBack();                 //Премахва символ от края на низа
+    void swap(String &);            //Разменя стойностите на два низа
 
     void print(); //Извежда на стандартния изход низ
 };

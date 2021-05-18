@@ -1,0 +1,4 @@
+*.db
+.vscode
+*.out
+*.exe
