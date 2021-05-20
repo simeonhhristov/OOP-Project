@@ -10,7 +10,7 @@
 
 int main()
 {
-
+    String str = "hi";
     //login / register prompt
     std::cout << "Welcome to Simeon's traveler app!" << std::endl;
     std::cout << "Press R to sign up or L to log in:" << std::endl
@@ -25,10 +25,10 @@ int main()
         std::cin >> action;
     }
 
-    User currentUser;
+    User *currentUser = new User();
     UserFactory userFactory;
     Authenticator auth;
-    
+
     //login form
     if (action == 'L' || action == 'l')
     {
@@ -39,7 +39,9 @@ int main()
         currentUser = userFactory.createUser();
     }
 
-    std::cout << currentUser;
+    currentUser->addFriend("friend1");
+
+    currentUser->updateDB();
 
     User date;
 

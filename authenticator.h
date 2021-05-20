@@ -6,5 +6,5 @@
 class Authenticator
 {
 public:
-    User authenticate();
+    User *authenticate();
 };

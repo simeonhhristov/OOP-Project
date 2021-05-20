@@ -44,22 +44,23 @@ String::~String()
 
 void String::setData(const char *data)
 {
+    this->data = new char[strlen(data) + 1];
 
-    int i = 0;
-    for (; data[i] != '\0'; i++)
-    {
-    }
-    this->data = new char[i + 1];
-
-    for (int j = 0; j < i; j++)
+    for (int j = 0; j < strlen(data); j++)
     {
         this->data[j] = data[j];
     }
+
+    this->data[strlen(data)] = '\0';
 }
 
 int String::getSize() const
 {
-    return this->size;
+    int i = 0;
+    for (; this->data[i] != '\0'; i++)
+    {
+    }
+    return i;
 }
 String &String::concat(const String &other)
 {
@@ -96,13 +97,13 @@ char &String::operator[](int index)
     {
         return this->data[index];
     }
-    std::cout << "Index out of bounds"<< std::endl;
+    std::cout << "Index out of bounds" << std::endl;
     return this->data[0];
 }
 
 String &String::operator+=(const String &other)
 {
-    char *newString = new char[this->size + other.size];
+    char *newString = new char[this->size + other.size + 1];
     for (int i = 0; i < this->size; i++)
     {
         newString[i] = this->data[i];
@@ -120,6 +121,7 @@ String &String::operator+=(const String &other)
     {
         this->data[i] = newString[i];
     }
+    this->data[this->size] = '\0';
     delete[] newString;
 
     return *this;
@@ -158,11 +160,12 @@ String &String::append(const String &other)
 void String::pushBack(char letter)
 {
     char *newStr = new char[this->size + 1];
-    for (int i = 0; i < this->size + 1; i++)
+    for (int i = 0; i < this->size; i++)
     {
         newStr[i] = this->data[i];
     }
     newStr[this->size] = letter;
+    newStr[this->size + 1] = '\0';
     String tempStr(newStr);
 
     *this = tempStr;

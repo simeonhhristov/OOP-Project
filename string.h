@@ -1,9 +1,9 @@
 #pragma once
 #include <iostream>
-
+#include <cstring>
 class String
 {
-private:
+public:
     char *data;
     size_t size;
 
@@ -25,7 +25,7 @@ public:
 
     friend std::ostream &operator<<(std::ostream &out, const String &other)
     {
-        for (size_t i = 0; other.data[i] != '\0'; ++i)
+        for (size_t i = 0; other.data[i] != '\0'; i++)
         {
             out << other.data[i];
         }
