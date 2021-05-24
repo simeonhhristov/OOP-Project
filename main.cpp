@@ -10,18 +10,20 @@
 
 int main()
 {
-    String str = "hi";
+    String hi = "";
+    hi.pushBack('`');
+    std::cout << hi;
     //login / register prompt
     std::cout << "Welcome to Simeon's traveler app!" << std::endl;
     std::cout << "Press R to sign up or L to log in:" << std::endl
-              << "[R]/[L] :";
+              << "[S]/[L] :";
     char action;
     std::cin >> action;
 
-    while (!(action == 'R' || action == 'r' || action == 'L' || action == 'l'))
+    while (!(action == 'S' || action == 's' || action == 'L' || action == 'l'))
     {
         std::cout << "Please enter a valid key value:" << std::endl
-                  << "[R]/[L] :";
+                  << "[S]/[L] :";
         std::cin >> action;
     }
 
@@ -29,51 +31,25 @@ int main()
     UserFactory userFactory;
     Authenticator auth;
 
-    //login form
     if (action == 'L' || action == 'l')
     {
         currentUser = auth.authenticate();
     }
-    else if (action == 'R' || action == 'r')
+    else if (action == 'S' || action == 's')
     {
         currentUser = userFactory.createUser();
     }
 
-    currentUser->addFriend("friend1");
-
-    currentUser->updateDB();
-
-    User date;
-
-    String data1;
-    String data2;
-    String data3;
-    String data4;
-
-    //subtring
-
-    // std::cin >> data1;
-    // std::cout << data1;
-
-    // std::ifstream fin("users.db");
-    // if (fin.is_open())
+    // String newFriend;
+    // std::cin >> newFriend;
+    // if (currentUser->isExistingUser(newFriend))
     // {
-    //     while(fin >> data1  >> data2 >> data3 >> data4)
-    //     {
-    //         if (data1 == "georgi123")
-    //         {
-    //             std::cout << data1 << data2 << data3 << " "<<  data4;
-    //             std::cout << std::endl;
-    //         }
-    //     }
+    //     currentUser->addFriend(newFriend);
     // }
+    std::cout << *currentUser;
+    currentUser->addJourney();
+    // when program ends..
+    // currentUser->updateDB();
 
-    //std::cout << date;
-
-    //fin.close();
-
-    // char*  str = new char[256];
-    // std::cin.getline(str,3);
-    // std::cout <<  str;
     std::cout << std::endl;
 }

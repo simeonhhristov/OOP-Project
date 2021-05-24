@@ -24,6 +24,7 @@ User *UserFactory::createUser()
     while (!validEmail(email))
     {
         std::cout << "Invalid email address.";
+
         std::cin >> email;
     }
     std::cout << "Enter your password (min 8 symbols):";
@@ -82,6 +83,7 @@ User *UserFactory::createUser()
     fout.close();
 
     return currentUser;
+    
 }
 
 int UserFactory::checkIfUsed(String username, String email)

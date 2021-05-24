@@ -53,7 +53,10 @@ void String::setData(const char *data)
 
     this->data[strlen(data)] = '\0';
 }
-
+char* String::getData() const
+{
+    return this->data;
+}
 int String::getSize() const
 {
     int i = 0;
@@ -91,6 +94,18 @@ bool String::empty()
     return 1;
 }
 
+void String::charReplace(char toReplace, char newChar)
+{
+    for (size_t i = 0; this->data[i] != '\0'; i++)
+    {
+        if (this->data[i] == toReplace)
+        {
+            this->data[i] = newChar;
+        } 
+    }
+    
+}
+
 char &String::operator[](int index)
 {
     if (index >= 0 && index < this->size)
@@ -103,26 +118,7 @@ char &String::operator[](int index)
 
 String &String::operator+=(const String &other)
 {
-    char *newString = new char[this->size + other.size + 1];
-    for (int i = 0; i < this->size; i++)
-    {
-        newString[i] = this->data[i];
-    }
-    for (int i = 0; i < other.size; i++)
-    {
-        newString[i + this->size] = other.data[i];
-    }
-
-    delete this->data;
-    this->size += other.size;
-    this->data = new char[this->size];
-
-    for (int i = 0; i < this->size; i++)
-    {
-        this->data[i] = newString[i];
-    }
-    this->data[this->size] = '\0';
-    delete[] newString;
+    this->append(other);
 
     return *this;
 }
@@ -153,10 +149,30 @@ bool String::operator==(const String &other)
 }
 String &String::append(const String &other)
 {
-    *this += other;
+    char * temp = new char[this->getSize() + other.getSize() + 1];
+
+    for (size_t i = 0; i < this->getSize(); i++)
+    {
+        temp[i] = this->data[i];
+    }
+    for (size_t i = 0; i < other.getSize(); i++)
+    {
+        temp[i + this->getSize()] = other.data[i]; 
+    }
+    
+    this->size = this->getSize() + other.getSize();
+    delete []this->data;
+    this->data = new char[this->size + 1];
+
+    for (size_t i = 0; i < this->size; i++)
+    {
+        this->data[i] = temp[i];
+    }
+    this->data[this->size] = '\0';
 
     return *this;
 }
+
 void String::pushBack(char letter)
 {
     char *newStr = new char[this->size + 1];

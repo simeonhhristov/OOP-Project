@@ -29,4 +29,6 @@ public:
         return out;
     }
 
+    int operator-(const Date&);
+
 };

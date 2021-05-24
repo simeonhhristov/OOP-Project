@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include "date.h"
 #include "string.h"
 
 class User
@@ -9,6 +10,7 @@ public:
     String email;
     String username;
     String password;
+    String *allUsers;
     String *friendsList;
     int numOfFriends;
     int currentLimitOfFriends;
@@ -37,9 +39,11 @@ public:
     void splitString(String);
     void updateDB();
 
+    void addJourney();
     void destinationGradeByFriends(/*char*/);
     void destinationGradeByAll(char *);
 
     void addFriend(String);
+    bool isExistingUser(String);
     void printFriends();
 };

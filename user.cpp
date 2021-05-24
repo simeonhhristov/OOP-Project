@@ -1,4 +1,5 @@
 #include "user.h"
+#include "date.h"
 #include <cstring>
 
 User::User()
@@ -6,6 +7,7 @@ User::User()
     this->username = "Undefined";
     this->email = "Undefined";
     this->password = "Undefined";
+    this->allUsers = nullptr;
     this->friendsList = nullptr;
     this->numOfFriends = 0;
     this->currentLimitOfFriends = 0;
@@ -15,6 +17,7 @@ User::User(String _username, String _email, String _password, String friends)
     this->username = _username;
     this->email = _email;
     this->password = _password;
+    this->allUsers = new String[10];
     this->friendsList = new String[8];
     this->currentLimitOfFriends = 8;
     this->numOfFriends = 0;
@@ -39,7 +42,6 @@ User &User::operator=(const User &other)
     }
     return *this;
 }
-
 void User::splitString(String str)
 {
     String temp = "";
@@ -58,6 +60,107 @@ void User::splitString(String str)
             i++;
         }
     }
+}
+
+void User::addJourney()
+{
+    std::cout << std::endl;
+    String location;
+    char temp[300];
+    Date start;
+    Date end;
+    int grade = 0;
+    String comment;
+    String images;
+
+    std::cin.ignore();
+    std::cin.getline(temp, 100);
+    location = temp;
+
+    std::cout << "Date period. From: " << std::endl;
+    std::cin >> start;
+    std::cout << "To: " << std::endl;
+    std::cin >> end;
+
+    while (start - end > 0)
+    {
+        std::cout << "Invalid period, try again. From: " << std::endl;
+        std::cin >> start;
+        std::cout << "To: " << std::endl;
+        std::cin >> end;
+    }
+
+    while (grade < 1 || grade > 5)
+    {
+        std::cout << "Select a grade from 1 - 5: ";
+        std::cin >> grade;
+    }
+
+    std::cout << "Add a comment about your experience: " << std::endl;
+    std::cin.ignore();
+    std::cin.getline(temp, 300);
+    comment = temp;
+
+    std::cout << "Add some images you'd like to share: " << std::endl;
+
+    bool correct = 0;
+    while (!correct)
+    {
+        std::cin.getline(temp, 300);
+        bool foundSpace = 0;
+
+        for (int i = 0; temp[i] != '\0'; i++)
+        {
+            if (!((temp[i] >= 'a' && temp[i] <= 'z') || (temp[i] >= 'A' && temp[i] <= 'Z') || temp[i] == '_' || temp[i] == ' ' || temp[i] == '.'))
+            {
+                std::cout << "Invalid symbols detected, valid symbols are a - z, A - Z and _" << std::endl;
+                break;
+            }
+            if (temp[i] == ' ' && foundSpace)
+            {
+                std::cout << "No spaces in file names allowed. Please Try again." << std::endl;
+                break;
+            }
+            else if (temp[i] == ' ')
+            {
+                foundSpace = 1;
+            }
+
+            if (temp[i] == '.')
+            {
+                foundSpace = 0;
+
+                if (temp[i - 1] == ' ')
+                {
+                    std::cout << "Invalid file name detected. Please Try again." << std::endl;
+                    break;
+                }
+                if (!((temp[i + 1] == 'p' && temp[i + 2] == 'n' && temp[i + 3] == 'g') || (temp[i + 1] == 'j' && temp[i + 2] == 'p' && temp[i + 3] == 'e' && temp[i + 4] == 'g')))
+                {
+                    std::cout << "Invalid file extensions detected. Valid are .png, .jpeg" << std::endl;
+                    break;
+                }
+            }
+
+            if (temp[i + 1] == '\0')
+            {
+                correct = 1;
+            }
+        }
+    }
+
+    images = temp;
+    location.charReplace(' ', '`');
+    comment.charReplace(' ', '`');
+    images.charReplace(' ', '`');
+
+    String file = "users/";
+    file.append(this->username);
+    file.append(".db");
+    std::ofstream fout;
+    fout.open(file.getData(), std::ios::app);
+    fout << location << " " << start << " " << end << " " << grade << " " << comment << " " << images;
+    fout.close();
 }
 
 void User::destinationGradeByFriends(/*char **/)
@@ -82,12 +185,6 @@ void User::addFriend(String newFriend)
         tempList[this->numOfFriends] = newFriend;
 
         delete[] this->friendsList;
-        // this->friendsList = new String[currentLimitOfFriends];
-
-        // for (size_t i = 0; i < this->numOfFriends; i++)
-        // {
-        //     this->friendsList[i] = tempList[i];
-        // }
         this->friendsList = tempList;
         this->numOfFriends++;
     }
@@ -97,16 +194,52 @@ void User::addFriend(String newFriend)
         this->numOfFriends++;
     }
 }
+
+bool User::isExistingUser(String user)
+{
+    if (user == this->username)
+    {
+        std::cout << "You can't add yourself as a friend." << std::endl;
+        return 0;
+    }
+    for (int i = 0; i < this->numOfFriends; i++)
+    {
+        if (this->friendsList[i] == user)
+        {
+            std::cout << friendsList[i] << " is already your friend." << std::endl;
+            return 0;
+        }
+    }
+
+    String field1;
+    String field2;
+    String field3;
+    String field4;
+
+    std::ifstream fin("users.db");
+    if (fin.is_open())
+    {
+        while (fin >> field1 >> field2 >> field3 >> field4)
+        {
+            if (field1 == user)
+            {
+                fin.close();
+                return 1;
+            }
+        }
+        if (fin.eof())
+        {
+            fin.close();
+            return 0;
+        }
+    }
+    fin.close();
+
+    return 0;
+}
+
 void User::updateDB()
 {
-    // String updatedList = "Friends:";
-    // for (size_t i = 0; i < this->numOfFriends; i++)
-    // {
-    //     updatedList +=this->friendsList[i];
-    //     updatedList += ",";
-    // }
-    // std::cout <<"-->" << updatedList << " <--";
-
     String field1;
     String field2;
     String field3;
