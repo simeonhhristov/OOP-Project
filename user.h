@@ -35,15 +35,18 @@ public:
         }
         return out;
     }
-
+    String getUsername();
     void splitString(String);
     void updateDB();
 
+    bool validFile(String);
     void addJourney();
-    void destinationGradeByFriends(/*char*/);
-    void destinationGradeByAll(char *);
+    void visitedByFriend();
+    void destinationGradeByAll();
 
+    void manualAdd();
     void addFriend(String);
     bool isExistingUser(String);
+    bool isFriend(String);
     void printFriends();
 };

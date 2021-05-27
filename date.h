@@ -1,8 +1,6 @@
 #pragma once
 #include <iostream>
 
-
-
 class Date
 {
 private:
@@ -29,6 +27,5 @@ public:
         return out;
     }
 
-    int operator-(const Date&);
-
+    int operator-(const Date &);
 };

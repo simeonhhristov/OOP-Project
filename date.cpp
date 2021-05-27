@@ -2,7 +2,7 @@
 
 bool Date::isLeap(int year)
 {
-    return (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0)); 
+    return (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0));
 }
 
 bool Date::isValidDate(int d, int m, int y)
@@ -10,12 +10,11 @@ bool Date::isValidDate(int d, int m, int y)
     // If year, month and day
     // are not in given range
     if (d < 1 || d > 31)
-    { 
-        std::cout << "Invalid day, please try again." << std::endl;
+    {
+        std::cout << "Invalid day, please try again.1" << std::endl;
         return false;
     }
 
-    
     if (m < 1 || m > 12)
     {
         std::cout << "Invalid month, please try again." << std::endl;
@@ -32,9 +31,9 @@ bool Date::isValidDate(int d, int m, int y)
             {
                 std::cout << "Invalid day, please try again." << std::endl;
             }
-            
+
             return (d <= 29);
-        }      
+        }
         else
         {
             if (!(d <= 28))
@@ -42,7 +41,7 @@ bool Date::isValidDate(int d, int m, int y)
                 std::cout << "Invalid day, please try again." << std::endl;
             }
             return (d <= 28);
-        }        
+        }
     }
 
     // months April June September November
@@ -54,17 +53,17 @@ bool Date::isValidDate(int d, int m, int y)
     return true;
 }
 
-int Date::operator-(const Date& other)
+int Date::operator-(const Date &other)
 {
     //if negative then the time period is valid
     //if positive then it's not valid
     //if 0 then its the same day
 
-    if (this->year - other.year !=0)
+    if (this->year - other.year != 0)
     {
         return this->year - other.year;
     }
-    else if (this->month - other.month !=0)
+    else if (this->month - other.month != 0)
     {
         return this->year - other.year;
     }
@@ -72,6 +71,4 @@ int Date::operator-(const Date& other)
     {
         return this->day - other.day;
     }
-    
-    
 }

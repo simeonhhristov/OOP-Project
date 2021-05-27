@@ -33,7 +33,7 @@ public:
     }
 
     void setData(const char *);
-    char* getData() const;
+    char *getData() const;
     int getSize() const;            //Връща размера на низа
     String &concat(const String &); //Конкатенира два низа (низ1 = "а", низ2 = "b", низ1.concat(низ2) = "ab")
 
@@ -41,6 +41,8 @@ public:
     void clear();      //Изчиства елементите на низа
     bool empty();      //Проверява дали низа е празен
 
+    char toUpper(char);
+    bool isContained(String);
     void charReplace(char, char);
     char &operator[](int index);        //Връща символ от низа
     String &operator+=(const String &); //Добавя към един низ друг

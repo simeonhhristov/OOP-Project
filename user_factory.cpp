@@ -23,15 +23,15 @@ User *UserFactory::createUser()
     std::cin >> email;
     while (!validEmail(email))
     {
-        std::cout << "Invalid email address.";
+        std::cout << "Invalid email address, try again: ";
 
         std::cin >> email;
     }
-    std::cout << "Enter your password (min 8 symbols):";
+    std::cout << "Enter your password (min 8 symbols): ";
     std::cin >> password;
     while (password.getSize() < 8)
     {
-        std::cout << "Password must be 8 or more symbols:";
+        std::cout << "Password must be 8 or more symbols: ";
         std::cin >> password;
     }
 
@@ -79,11 +79,10 @@ User *UserFactory::createUser()
     User *currentUser = new User(username, email, password, friends);
     std::ofstream fout;
     fout.open("users.db", std::ios::app);
-    fout << currentUser;
+    fout << *currentUser;
     fout.close();
 
     return currentUser;
-    
 }
 
 int UserFactory::checkIfUsed(String username, String email)

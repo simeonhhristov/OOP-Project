@@ -23,7 +23,6 @@ User::User(String _username, String _email, String _password, String friends)
     this->numOfFriends = 0;
     splitString(friends);
 }
-
 User &User::operator=(const User &other)
 {
     if (this != &other)
@@ -42,6 +41,11 @@ User &User::operator=(const User &other)
     }
     return *this;
 }
+String User::getUsername()
+{
+    return this->username;
+}
+
 void User::splitString(String str)
 {
     String temp = "";
@@ -61,6 +65,47 @@ void User::splitString(String str)
         }
     }
 }
+bool User::validFile(String fileName)
+{
+    bool foundDot = 0;
+    for (int i = 0; fileName[i] != '\0'; i++)
+    {
+        if (!((fileName[i] >= 'a' && fileName[i] <= 'z') || (fileName[i] >= 'A' && fileName[i] <= 'Z') || fileName[i] == '_' || fileName[i] == ' ' || fileName[i] == '.'))
+        {
+            std::cout << "Invalid symbols detected, valid symbols are a - z, A - Z and _" << std::endl;
+            return 0;
+        }
+        if (fileName[i] == ' ')
+        {
+            std::cout << "No Spaces in file names allowed." << std::endl;
+            return 0;
+        }
+
+        if (fileName[i] == '.')
+        {
+            foundDot = 1;
+
+            if (!((fileName[i + 1] == 'p' && fileName[i + 2] == 'n' && fileName[i + 3] == 'g') || (fileName[i + 1] == 'j' && fileName[i + 2] == 'p' && fileName[i + 3] == 'e' && fileName[i + 4] == 'g')))
+            {
+                std::cout << "Invalid file extensions detected. Valid are .png, .jpeg" << std::endl;
+                return 0;
+            }
+            continue;
+        }
+
+        if (fileName[i] == '.' && foundDot)
+        {
+            std::cout << "Invalid symbol extension." << std::endl;
+            return 0;
+        }
+    }
+    if (!foundDot)
+    {
+        std::cout << "Invalid file." << std::endl;
+        return 0;
+    }
+    return 1;
+}
 
 void User::addJourney()
 {
@@ -71,8 +116,10 @@ void User::addJourney()
     Date end;
     int grade = 0;
     String comment;
-    String images;
+    String images = "";
+    String separateImg = "";
 
+    std::cout << "Enter destination name: " << std::endl;
     std::cin.ignore();
     std::cin.getline(temp, 100);
     location = temp;
@@ -100,76 +147,183 @@ void User::addJourney()
     std::cin.ignore();
     std::cin.getline(temp, 300);
     comment = temp;
+    std::cout << std::endl;
 
     std::cout << "Add some images you'd like to share: " << std::endl;
+    std::cout << "Instructions: type the name of your file and press enter, type 'done' when you are ready. " << std::endl;
 
-    bool correct = 0;
-    while (!correct)
+    while (1)
     {
-        std::cin.getline(temp, 300);
-        bool foundSpace = 0;
-
-        for (int i = 0; temp[i] != '\0'; i++)
+        std::cin >> separateImg;
+        if (separateImg == "done")
         {
-            if (!((temp[i] >= 'a' && temp[i] <= 'z') || (temp[i] >= 'A' && temp[i] <= 'Z') || temp[i] == '_' || temp[i] == ' ' || temp[i] == '.'))
-            {
-                std::cout << "Invalid symbols detected, valid symbols are a - z, A - Z and _" << std::endl;
-                break;
-            }
-            if (temp[i] == ' ' && foundSpace)
-            {
-                std::cout << "No spaces in file names allowed. Please Try again." << std::endl;
-                break;
-            }
-            else if (temp[i] == ' ')
-            {
-                foundSpace = 1;
-            }
-
-            if (temp[i] == '.')
-            {
-                foundSpace = 0;
-
-                if (temp[i - 1] == ' ')
-                {
-                    std::cout << "Invalid file name detected. Please Try again." << std::endl;
-                    break;
-                }
-                if (!((temp[i + 1] == 'p' && temp[i + 2] == 'n' && temp[i + 3] == 'g') || (temp[i + 1] == 'j' && temp[i + 2] == 'p' && temp[i + 3] == 'e' && temp[i + 4] == 'g')))
-                {
-                    std::cout << "Invalid file extensions detected. Valid are .png, .jpeg" << std::endl;
-                    break;
-                }
-            }
-
-            if (temp[i + 1] == '\0')
-            {
-                correct = 1;
-            }
+            break;
         }
+
+        if (!validFile(separateImg))
+        {
+            continue;
+        }
+
+        images.append(separateImg);
+        images.append(",");
     }
 
-    images = temp;
     location.charReplace(' ', '`');
     comment.charReplace(' ', '`');
-    images.charReplace(' ', '`');
 
     String file = "users/";
     file.append(this->username);
     file.append(".db");
+    if (images.getSize() == 0)
+    {
+        images = "none";
+    }
+
     std::ofstream fout;
     fout.open(file.getData(), std::ios::app);
-    fout << location << " " << start << " " << end << " " << grade << " " << comment << " " << images;
+    fout << location << " " << start << " " << end << " " << grade << " " << comment << " " << images << std::endl;
     fout.close();
+
+    std::cout << std::endl;
 }
 
-void User::destinationGradeByFriends(/*char **/)
+void User::visitedByFriend()
 {
-}
-void User::destinationGradeByAll(char *)
-{
+    if (this->numOfFriends == 0)
+    {
+        std::cout << "You don't have any friends." << std::endl;
+        return;
+    }
+
+    this->printFriends();
+    String friendName;
+    std::cout << "Enter the name of the friend whom you want to look up: ";
+    std::cin >> friendName;
+    while (!isFriend(friendName))
+    {
+        std::cout << friendName << " is not your friend, please try again.";
+        std::cin >> friendName;
+    }
+
+    String field1;
+    String field2;
+    String field3;
+    String field4;
+    String field5;
+    String field6;
+
+    String file = "users/";
+    file.append(friendName);
+    file.append(".db");
+
+    std::ifstream fin(file.getData());
+    if (fin.is_open())
+    {
+        while (fin >> field1 >> field2 >> field3 >> field4 >> field5 >> field6)
+        {
+            field1.charReplace('`', ' ');
+            field5.charReplace('`', ' ');
+            std::cout << field1 << " " << field2 << "-" << field3 << " " << field4 << " " << field5 << " " << field6 << std::endl;
+        }
+    }
+    fin.close();
 }
 
+void User::destinationGradeByAll()
+{
+    String destination;
+    std::cout << "Enter destination name, make sure it's as short as possible for more results." << std::endl;
+    std::cin >> destination;
+    int n = 20;
+    String *users = new String[n];
+
+    std::ifstream fin("users.db");
+    int i = 0;
+    if (fin.is_open())
+    {
+        String field1;
+        String field2;
+        String field3;
+        String field4;
+
+        while (fin >> field1 >> field2 >> field3 >> field4)
+        {
+            if (field1 == username)
+                continue;
+
+            if (i == n - 1)
+            {
+                n *= 2;
+                String *temp = new String[n];
+                for (int j = 0; j < i; j++)
+                {
+                    temp[j] = users[j];
+                }
+                temp[i] = field1;
+
+                delete[] users;
+                users = temp;
+                i++;
+            }
+            else
+            {
+                users[i] = field1;
+                i++;
+            }
+        }
+    }
+    fin.close();
+
+    for (size_t j = 0; j < i; j++)
+    {
+        String fileName = "users/";
+        users[j] = fileName.append(users[j]);
+        users[j].append(".db");
+    }
+
+    double averageGrade = 0;
+    int count = 0;
+    for (int j = 0; j < i; j++)
+    {
+        String field1;
+        String field2;
+        String field3;
+        int field4;
+        String field5;
+        String field6;
+
+        std::ifstream fin(users[j].getData());
+        if (fin.is_open())
+        {
+            while (fin >> field1 >> field2 >> field3 >> field4 >> field5 >> field6)
+            {
+                field1.charReplace('`', ' ');
+                if (destination.isContained(field1))
+                {
+                    field5.charReplace('`', ' ');
+                    std::cout << field1 << ", Period: " << field2 << "-" << field3 << ", Grade: " << field4 << ", Comment:" << field5 << " Shared images: " << field6 << std::endl;
+                    averageGrade += field4;
+                    count++;
+                }
+            }
+        }
+        fin.close();
+    }
+    std::cout << "Average grade for " << destination << ": " << averageGrade / count << std::endl;
+}
+void User::manualAdd()
+{
+    std::cout << "Name of friend you want to add: ";
+    String newFriend;
+    std::cin >> newFriend;
+
+    if (isExistingUser(newFriend) && !isFriend(newFriend))
+    {
+        this->addFriend(newFriend);
+        return;
+    }
+}
 void User::addFriend(String newFriend)
 {
     if (this->numOfFriends == this->currentLimitOfFriends - 1)
@@ -230,11 +384,23 @@ bool User::isExistingUser(String user)
         if (fin.eof())
         {
             fin.close();
+            std::cout << "User not found." << std::endl;
             return 0;
         }
     }
     fin.close();
 
+    return 0;
+}
+bool User::isFriend(String name)
+{
+    for (int i = 0; i < this->numOfFriends; i++)
+    {
+        if (friendsList[i] == name)
+        {
+            return 1;
+        }
+    }
     return 0;
 }
 
@@ -270,4 +436,9 @@ void User::updateDB()
 
 void User::printFriends()
 {
+    std::cout << "Your Friends:" << std::endl;
+    for (size_t i = 0; i < this->numOfFriends; i++)
+    {
+        std::cout << this->friendsList[i] << std::endl;
+    }
 }

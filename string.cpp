@@ -53,7 +53,7 @@ void String::setData(const char *data)
 
     this->data[strlen(data)] = '\0';
 }
-char* String::getData() const
+char *String::getData() const
 {
     return this->data;
 }
@@ -93,7 +93,50 @@ bool String::empty()
     }
     return 1;
 }
+char String::toUpper(char c)
+{
+    if (c >= 'a' && c <= 'z')
+    {
+        return c - ('a' - 'A');
+    }
 
+    return c;
+}
+bool String::isContained(String other)
+{
+    int M = this->getSize();
+    int N = other.getSize();
+    if (M == N)
+    {
+        for (size_t i = 0; i < M; i++)
+        {
+            if (toUpper(this->data[i]) != toUpper(other.data[i]))
+            {
+                return 0;
+            }
+        }
+        return true;
+    }
+
+    for (int i = 0; i < N - M; i++)
+    {
+        int j;
+
+        for (j = 0; j < M; j++)
+        {
+            if (toUpper(other[i + j]) != toUpper(this->data[j]))
+            {
+                break;
+            }
+        }
+        if (j == M)
+        {
+            return 1;
+        }
+    }
+
+    return 0;
+}
 void String::charReplace(char toReplace, char newChar)
 {
     for (size_t i = 0; this->data[i] != '\0'; i++)
@@ -101,9 +144,8 @@ void String::charReplace(char toReplace, char newChar)
         if (this->data[i] == toReplace)
         {
             this->data[i] = newChar;
-        } 
+        }
     }
-    
 }
 
 char &String::operator[](int index)
@@ -149,7 +191,7 @@ bool String::operator==(const String &other)
 }
 String &String::append(const String &other)
 {
-    char * temp = new char[this->getSize() + other.getSize() + 1];
+    char *temp = new char[this->getSize() + other.getSize() + 1];
 
     for (size_t i = 0; i < this->getSize(); i++)
     {
@@ -157,11 +199,11 @@ String &String::append(const String &other)
     }
     for (size_t i = 0; i < other.getSize(); i++)
     {
-        temp[i + this->getSize()] = other.data[i]; 
+        temp[i + this->getSize()] = other.data[i];
     }
-    
+
     this->size = this->getSize() + other.getSize();
-    delete []this->data;
+    delete[] this->data;
     this->data = new char[this->size + 1];
 
     for (size_t i = 0; i < this->size; i++)

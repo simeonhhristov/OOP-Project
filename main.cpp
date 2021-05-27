@@ -2,6 +2,7 @@
 #include <cstring>
 #include <fstream>
 #include <stdio.h>
+#include <filesystem>
 #include "user.h"
 #include "string.h"
 #include "date.h"
@@ -10,12 +11,9 @@
 
 int main()
 {
-    String hi = "";
-    hi.pushBack('`');
-    std::cout << hi;
     //login / register prompt
     std::cout << "Welcome to Simeon's traveler app!" << std::endl;
-    std::cout << "Press R to sign up or L to log in:" << std::endl
+    std::cout << "Press S to sign up or L to log in:" << std::endl
               << "[S]/[L] :";
     char action;
     std::cin >> action;
@@ -39,17 +37,16 @@ int main()
     {
         currentUser = userFactory.createUser();
     }
+    std::cout << "You are logged as: " << currentUser->getUsername() << std::endl;
 
-    // String newFriend;
-    // std::cin >> newFriend;
-    // if (currentUser->isExistingUser(newFriend))
-    // {
-    //     currentUser->addFriend(newFriend);
-    // }
-    std::cout << *currentUser;
+    currentUser->manualAdd();
+
     currentUser->addJourney();
+    currentUser->visitedByFriend();
+    currentUser->destinationGradeByAll();
+
     // when program ends..
-    // currentUser->updateDB();
+    currentUser->updateDB();
 
     std::cout << std::endl;
 }

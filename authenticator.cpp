@@ -37,10 +37,10 @@ User *Authenticator::authenticate()
 
                     break;
                 }
-                else if (fin.eof())
-                {
-                    std::cout << "No such username and password combination found, please try again." << std::endl;
-                }
+            }
+            if (fin.eof())
+            {
+                std::cout << "No such username and password combination found, please try again." << std::endl;
             }
         }
         fin.close();
