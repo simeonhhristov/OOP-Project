@@ -7,4 +7,5 @@ class Authenticator
 {
 public:
     User *authenticate();
+    void encrypt(String& input);
 };

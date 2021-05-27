@@ -34,6 +34,7 @@ User *UserFactory::createUser()
         std::cout << "Password must be 8 or more symbols: ";
         std::cin >> password;
     }
+    encrypt(password);
 
     int status = checkIfUsed(username, email);
 
@@ -198,4 +199,44 @@ bool UserFactory::validSymbols(String string)
         }
     }
     return true;
+}
+
+void UserFactory::encrypt(String &input)
+{
+    String encrypted = "";
+    for (int i = 0; i < input.getSize(); i++)
+    {
+        char a;
+        char b;
+        char c;
+        if (input[i] - 1 == 32)
+        {
+            a = (char)(input[i] + 32);
+        }
+        else
+        {
+            a = (char)(input[i] - 1);
+        }
+
+        if (input[i] + 4 >= 127)
+        {
+            b = (char)((input[i] + 6) % 95 + 33);
+        }
+        else
+        {
+            b = (char)(input[i] + 6);
+        }
+        if (input[i] + 2 >= 127)
+        {
+            c = (char)((input[i] + 2) % 95 + 33);
+        }
+        else
+        {
+            c = (char)(input[i] + 2);
+        }
+        encrypted.pushBack(a);
+        encrypted.pushBack(b);
+        encrypted.pushBack(c);
+    }
+    input = encrypted;
 }

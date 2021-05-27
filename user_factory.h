@@ -11,4 +11,5 @@ public:
     int checkIfUsed(String, String);
     bool validEmail(String);
     bool validSymbols(String);
+    void encrypt(String &);
 };
