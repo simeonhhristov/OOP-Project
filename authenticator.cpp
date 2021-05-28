@@ -2,15 +2,15 @@
 
 User *Authenticator::authenticate()
 {
-    String username;
-    String email;
-    String password;
-
     User *returnUser;
 
     bool found = 0;
     while (!found)
     {
+
+        String username;
+        String email;
+        String password;
 
         std::cout << "Enter your Username:";
         std::cin >> username;

@@ -124,7 +124,7 @@ void User::addJourney()
     std::cin.getline(temp, 100);
     location = temp;
 
-    std::cout << "Date period. From: " << std::endl;
+    std::cout << "Date period (Date format - [YYYY]-[MM]-[DD]). From: " << std::endl;
     std::cin >> start;
     std::cout << "To: " << std::endl;
     std::cin >> end;
@@ -217,6 +217,7 @@ void User::visitedByFriend()
     file.append(friendName);
     file.append(".db");
 
+    int count = 0;
     std::ifstream fin(file.getData());
     if (fin.is_open())
     {
@@ -225,9 +226,15 @@ void User::visitedByFriend()
             field1.charReplace('`', ' ');
             field5.charReplace('`', ' ');
             std::cout << field1 << " " << field2 << "-" << field3 << " " << field4 << " " << field5 << " " << field6 << std::endl;
+            count++;
         }
     }
     fin.close();
+    if (count == 0)
+    {
+        std::cout << friendName << " hasn't published any journeys yet." << std::endl;
+    }
+    
 }
 
 void User::destinationGradeByAll()
@@ -310,7 +317,14 @@ void User::destinationGradeByAll()
         }
         fin.close();
     }
-    std::cout << "Average grade for " << destination << ": " << averageGrade / count << std::endl;
+    if (count == 0)
+    {
+        std::cout << "No information found for " << destination << std::endl;
+    }
+    else
+    {
+        std::cout << "Average grade for " << destination << ": " << averageGrade / count << std::endl;
+    }
 }
 void User::manualAdd()
 {

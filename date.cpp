@@ -11,7 +11,7 @@ bool Date::isValidDate(int d, int m, int y)
     // are not in given range
     if (d < 1 || d > 31)
     {
-        std::cout << "Invalid day, please try again.1" << std::endl;
+        std::cout << "Invalid day, please try again." << std::endl;
         return false;
     }
 
@@ -47,7 +47,11 @@ bool Date::isValidDate(int d, int m, int y)
     // months April June September November
     if (m == 4 || m == 6 || m == 9 || m == 11)
     {
-        std::cout << "Invalid day, please try again." << std::endl;
+        if (!(d <= 30))
+        {
+            std::cout << "Invalid day, please try again." << std::endl;
+            return 0;
+        }
         return (d <= 30);
     }
     return true;

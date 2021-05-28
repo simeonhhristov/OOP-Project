@@ -6,7 +6,7 @@
 
 class User
 {
-public:
+private:
     String email;
     String username;
     String password;

@@ -16,14 +16,14 @@ public:
     {
         do
         {
-            is >> dt.day >> dt.month >> dt.year;
+            is >> dt.year >> dt.month >> dt.day;
         } while (!dt.isValidDate(dt.day, dt.month, dt.year));
 
         return is;
     }
     friend std::ostream &operator<<(std::ostream &out, const Date &dt)
     {
-        out << dt.day << "." << dt.month << "." << dt.year;
+        out << dt.year << "-" << dt.month << "-" << dt.day;
         return out;
     }
 

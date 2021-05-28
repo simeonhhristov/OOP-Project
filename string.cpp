@@ -217,16 +217,18 @@ String &String::append(const String &other)
 
 void String::pushBack(char letter)
 {
-    char *newStr = new char[this->size + 1];
-    for (int i = 0; i < this->size; i++)
+    char *temp = new char[this->getSize() + 2];
+    for (size_t i = 0; i < this->getSize(); i++)
     {
-        newStr[i] = this->data[i];
+        temp[i] = this->data[i];
     }
-    newStr[this->size] = letter;
-    newStr[this->size + 1] = '\0';
-    String tempStr(newStr);
+    
+    temp[this->getSize()] = letter;
+    temp[this->getSize() + 1] = '\0';
 
-    *this = tempStr;
+    delete[] this->data;
+    this->data = temp;
+    this->size++;
 }
 void String::popBack()
 {

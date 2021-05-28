@@ -39,10 +39,16 @@ int main()
     }
     std::cout << "You are logged as: " << currentUser->getUsername() << std::endl;
 
+    //add friend method
     currentUser->manualAdd();
 
+    //add friend method
     currentUser->addJourney();
+
+    //look up a friend's trips
     currentUser->visitedByFriend();
+
+    //search for a destination information
     currentUser->destinationGradeByAll();
 
     // when program ends..

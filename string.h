@@ -3,7 +3,7 @@
 #include <cstring>
 class String
 {
-public:
+private:
     char *data;
     size_t size;
 
