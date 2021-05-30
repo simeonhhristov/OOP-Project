@@ -39,20 +39,48 @@ int main()
     }
     std::cout << "You are logged as: " << currentUser->getUsername() << std::endl;
 
-    //add friend method
-    currentUser->manualAdd();
 
-    //add friend method
-    currentUser->addJourney();
+    bool loop = 1;
 
-    //look up a friend's trips
-    currentUser->visitedByFriend();
+    while (loop)
+    {
+        char option;
+        std::cout << std::endl;
+        std::cout << "Select one of the options below:"<< std::endl;
+        std::cout << "1: Add a Friend."<< std::endl;
+        std::cout << "2: Add a journey."<< std::endl;
+        std::cout << "3: Look up information about a destination."<< std::endl;
+        std::cout << "4: Look up a Friend's journeys."<< std::endl;
+        std::cout << "5: Close the program."<< std::endl;
 
-    //search for a destination information
-    currentUser->destinationGradeByAll();
+        std::cin >> option;
 
-    // when program ends..
-    currentUser->updateDB();
+        switch (option)
+        {
+        case '1':
+            //add friend method
+            currentUser->manualAdd();
+            break;
+        case '2':
+            //add friend method
+            currentUser->addJourney();
+            break;
+        case '3':
+            //search for a destination information
+            currentUser->destinationGradeByAll();
+            break;
+        case '4':
+            //look up a friend's trips
+            currentUser->visitedByFriend();
+            break;
+
+        case '5':
+            // when program ends..
+            currentUser->updateDB();
+            loop = 0;
+            break;
+        }
+    }
 
     std::cout << std::endl;
 }

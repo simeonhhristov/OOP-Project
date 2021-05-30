@@ -7,7 +7,6 @@ User::User()
     this->username = "Undefined";
     this->email = "Undefined";
     this->password = "Undefined";
-    this->allUsers = nullptr;
     this->friendsList = nullptr;
     this->numOfFriends = 0;
     this->currentLimitOfFriends = 0;
@@ -17,7 +16,6 @@ User::User(String _username, String _email, String _password, String friends)
     this->username = _username;
     this->email = _email;
     this->password = _password;
-    this->allUsers = new String[10];
     this->friendsList = new String[8];
     this->currentLimitOfFriends = 8;
     this->numOfFriends = 0;

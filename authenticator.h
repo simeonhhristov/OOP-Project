@@ -5,7 +5,9 @@
 
 class Authenticator
 {
+private:
+    void encrypt(String& input);
 public:
     User *authenticate();
-    void encrypt(String& input);
+
 };

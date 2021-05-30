@@ -222,7 +222,7 @@ void String::pushBack(char letter)
     {
         temp[i] = this->data[i];
     }
-    
+
     temp[this->getSize()] = letter;
     temp[this->getSize() + 1] = '\0';
 

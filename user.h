@@ -10,10 +10,15 @@ private:
     String email;
     String username;
     String password;
-    String *allUsers;
     String *friendsList;
     int numOfFriends;
     int currentLimitOfFriends;
+
+    bool validFile(String);
+    void splitString(String);
+    bool isExistingUser(String);
+    bool isFriend(String);
+    void addFriend(String);
 
 public:
     User();
@@ -36,17 +41,12 @@ public:
         return out;
     }
     String getUsername();
-    void splitString(String);
-    void updateDB();
 
-    bool validFile(String);
     void addJourney();
     void visitedByFriend();
     void destinationGradeByAll();
-
     void manualAdd();
-    void addFriend(String);
-    bool isExistingUser(String);
-    bool isFriend(String);
+
     void printFriends();
+    void updateDB();
 };

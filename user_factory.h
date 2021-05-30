@@ -6,10 +6,13 @@
 
 class UserFactory
 {
-public:
-    User *createUser();
+private:
     int checkIfUsed(String, String);
     bool validEmail(String);
     bool validSymbols(String);
     void encrypt(String &);
+
+public:
+    User *createUser();
+    
 };
